@@ -16,21 +16,6 @@ O projeto acompanha meu processo de aprendizado, permitindo aplicar na prática 
 
 ---
 
-## 🎯 Objetivos
-
-Durante o desenvolvimento do PayCore, os principais objetivos são:
-
-* Aprender e praticar desenvolvimento de APIs com PHP;
-* Trabalhar com banco de dados e persistência de informações;
-* Implementar cadastro e autenticação de usuários;
-* Entender sessões, cookies e controle de acesso;
-* Aplicar boas práticas de segurança;
-* Estruturar regras de negócio no backend;
-* Evoluir gradualmente para operações financeiras;
-* Compreender conceitos de consistência e integridade de dados.
-
----
-
 ## 📚 Conceitos estudados
 
 Atualmente, o projeto está sendo utilizado para estudar conceitos como:
@@ -55,9 +40,3 @@ Conforme novas funcionalidades forem implementadas, novos conceitos serão adici
 🚧 **Em desenvolvimento**
 
 O PayCore é um projeto de estudo e está sendo construído gradualmente. Novas funcionalidades serão adicionadas conforme o avanço dos estudos em backend.
-
----
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Consulte o arquivo [LICENSE](LICENSE) para mais informações.
