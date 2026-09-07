@@ -6,7 +6,7 @@
 [![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=flat\&logo=laravel\&logoColor=white)](https://laravel.com/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-O **PayCore** é uma API financeira que estou construindo do zero para dominar o ecossistema do Laravel e boas práticas de desenvolvimento backend. 
+O **PayCore** é uma API financeira que estou construindo do zero para dominar PHP, Laravel e boas práticas de desenvolvimento backend. 
 
 A ideia final é simular uma estrutura de banco (com contas, saldos e transferências), mas o foco principal é consolidar conceitos reais de segurança, banco de dados e regras de negócio na prática.
 
