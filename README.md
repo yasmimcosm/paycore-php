@@ -1,6 +1,6 @@
 # 🏦 PayCore PHP
 
-> Uma API financeira desenvolvida em PHP como projeto prático de aprendizado em desenvolvimento backend.
+> Yasmim Silva Cosme
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.2%2B-777BB4?style=flat\&logo=php\&logoColor=white)](https://www.php.net/)
 [![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=flat\&logo=laravel\&logoColor=white)](https://laravel.com/)
