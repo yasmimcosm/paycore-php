@@ -31,49 +31,6 @@ Durante o desenvolvimento do PayCore, os principais objetivos são:
 
 ---
 
-## 🚧 Roadmap
-
-O projeto está sendo desenvolvido de forma incremental.
-
-### 🔐 Autenticação
-
-* [x] Cadastro de usuários
-* [x] Hash seguro de senhas
-* [x] Login
-* [x] Verificação de senha
-* [x] Gerenciamento de sessão
-* [ ] Proteção de rotas
-* [ ] Logout
-
-### 💰 Operações financeiras
-
-* [ ] Criação de contas
-* [ ] Consulta de saldo
-* [ ] Depósitos
-* [ ] Saques
-* [ ] Transferências entre contas
-* [ ] Histórico de transações
-
-### 🧾 Ledger e contabilidade
-
-* [ ] Registro de movimentações
-* [ ] Ledger financeiro
-* [ ] Partidas dobradas (Double-Entry Bookkeeping)
-* [ ] Histórico imutável
-* [ ] Auditoria das movimentações
-
-### 🔒 Segurança e qualidade
-
-* [ ] Validação de dados
-* [ ] Autorização
-* [ ] Tratamento de erros
-* [ ] Testes automatizados
-* [ ] Documentação da API
-
-> O roadmap pode mudar conforme o projeto evolui e novos conceitos são estudados.
-
----
-
 ## 📚 Conceitos estudados
 
 Atualmente, o projeto está sendo utilizado para estudar conceitos como:
