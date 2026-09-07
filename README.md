@@ -1,42 +1,21 @@
 # 🏦 PayCore PHP
 
-> Em desenvolvimento.
+> ⚠️ Projeto pessoal em desenvolvimento para fins de estudo backend.
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.2%2B-777BB4?style=flat\&logo=php\&logoColor=white)](https://www.php.net/)
 [![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=flat\&logo=laravel\&logoColor=white)](https://laravel.com/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-## 📖 Sobre o projeto
+O **PayCore** é uma API financeira que estou construindo do zero para dominar o ecossistema do Laravel e boas práticas de desenvolvimento backend. 
 
-O **PayCore PHP** é um projeto desenvolvido com o objetivo de estudar e praticar conceitos de **desenvolvimento backend**, utilizando PHP e Laravel.
-
-A ideia é construir, de forma gradual, uma API voltada para operações financeiras, começando pela implementação de **cadastro, autenticação e gerenciamento de usuários** e evoluindo posteriormente para funcionalidades como contas, saldos e transferências.
-
-O projeto acompanha meu processo de aprendizado, permitindo aplicar na prática conceitos de programação, bancos de dados, autenticação, segurança e regras de negócio.
+A ideia final é simular uma estrutura de banco (com contas, saldos e transferências), mas o foco principal é consolidar conceitos reais de segurança, banco de dados e regras de negócio na prática.
 
 ---
 
-## 📚 Conceitos estudados
+## 🛠️ O que o projeto já faz (e o que vem por aí)
 
-Atualmente, o projeto está sendo utilizado para estudar conceitos como:
+Em vez de focar na teoria, dividi o desenvolvimento em etapas claras:
 
-* HTTP e requisições;
-* APIs;
-* CRUD;
-* SQL;
-* Banco de dados;
-* Hash de senhas;
-* Autenticação;
-* Sessões;
-* Cookies;
-* Segurança no backend.
-
-Conforme novas funcionalidades forem implementadas, novos conceitos serão adicionados a esta seção.
-
----
-
-## 🚀 Status do projeto
-
-🚧 **Em desenvolvimento**
-
-O PayCore é um projeto de estudo e está sendo construído gradualmente. Novas funcionalidades serão adicionadas conforme o avanço dos estudos em backend.
+- [X] Cadastro, validação e autenticação segura de usuários (em andamento)
+- [ ] Gerenciamento de contas bancárias e saldos
+- [ ] Sistema de transferências entre usuários (com controle de transações/rollback)
