@@ -70,7 +70,7 @@ if ($user) {
     http_response_code(409); //Conflit - E-mail já cadastrado
 
     echo json_encode([
-        'message' => 'E-mail já cadastrado.'
+        'message' => 'E-mail ja cadastrado.'
     ]);
 
     exit;
