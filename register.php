@@ -22,7 +22,7 @@ $name = $input['name'];
 $email = $input['email'];
 $password = $input['password'];
 
-if (trim($name) === '') {
+if (trim($name) === '') { //remove espaços em branco do começo e do final
     http_response_code(400);
 
     echo json_encode([

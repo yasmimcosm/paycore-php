@@ -6,7 +6,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 if($method == 'GET'){
     if (!isset($_GET['id'])) {
-        http_response_code(400);
+        http_response_code(400); // 400 Bad Request - Dados inválidos
 
         echo json_encode([
             'message' => 'ID do usuario e obrigatorio.'
@@ -30,7 +30,7 @@ if($method == 'GET'){
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$user) {
-        http_response_code(404);
+        http_response_code(404); // Não encontrado
 
         echo json_encode([
             'message' => 'Usuario nao encontrado.'
@@ -52,7 +52,7 @@ if($method == 'GET'){
         http_response_code(400);
 
         echo json_encode([
-            'message' => 'ID do usuário é obrigatório.'
+            'message' => 'ID do usuario e obrigatorio.'
         ]);
 
         exit;
@@ -68,7 +68,7 @@ if($method == 'GET'){
         http_response_code(400);
 
         echo json_encode([
-            'message' => 'Nome e e-mail sao obrigatórios.'
+            'message' => 'Nome e e-mail sao obrigatorios.'
         ]);
 
         exit;
@@ -77,11 +77,21 @@ if($method == 'GET'){
     $name = $input['name'];
     $email = $input['email'];
 
+    if (trim($name) === '') { 
+        http_response_code(400);
+
+        echo json_encode([
+            'message' => 'Nome invalido'
+        ]);
+
+        exit;
+    }
+
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         http_response_code(400);
 
         echo json_encode([
-            'message' => 'E-mail inválido.'
+            'message' => 'E-mail invalido.'
         ]);
 
         exit;
@@ -105,7 +115,7 @@ if($method == 'GET'){
         http_response_code(404);
 
         echo json_encode([
-            'message' => 'Usuário não encontrado.'
+            'message' => 'Usuario nao encontrado.'
         ]);
 
         exit;
@@ -126,7 +136,7 @@ if($method == 'GET'){
     $userWithEmail = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($userWithEmail) {
-        http_response_code(409);
+        http_response_code(409); //Conflit - E-mail já cadastrado
 
         echo json_encode([
             'message' => 'E-mail ja cadastrado.'

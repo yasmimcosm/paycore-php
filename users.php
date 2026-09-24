@@ -13,4 +13,4 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 http_response_code(200);
 
-echo json_encode($users);
+echo json_encode($users, JSON_PRETTY_PRINT);
