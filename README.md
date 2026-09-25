@@ -28,30 +28,6 @@ API backend desenvolvida em PHP e MySQL, atualmente focada na construção da ba
 * Proteção contra SQL Injection utilizando PDO Prepared Statements
 * Configuração de credenciais através de variáveis de ambiente
 
-## Endpoints
-
-### Usuários
-
-| Método   | Endpoint            | Descrição                |
-| -------- | ------------------- | ------------------------ |
-| `POST`   | `/register.php`     | Cadastra um novo usuário |
-| `GET`    | `/users.php`        | Lista todos os usuários  |
-| `GET`    | `/user.php?id={id}` | Busca um usuário pelo ID |
-| `PUT`    | `/user.php?id={id}` | Atualiza nome e e-mail   |
-| `DELETE` | `/user.php?id={id}` | Exclui um usuário        |
-
-## Estrutura atual
-
-```text
-php_backend/
-├── db.php
-├── register.php
-├── users.php
-├── user.php
-├── composer.json
-├── composer.lock
-└── .gitignore
-```
 
 ## Próximos passos
 
