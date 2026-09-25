@@ -1,6 +1,5 @@
 <?php
-
-//lembra de pesquisar sobre 
+ 
 require 'db.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -98,10 +97,89 @@ if($method == 'POST'){
         'message' => 'Novo registro cadastrado com sucesso.'
     ]);
 
+    exit;
+
+    //e se tiver 1 milhão de registros
 } else if($method == 'GET'){
+    if (!isset($_GET['id'])) {
+        $stmt = $pdo->prepare(
+            "SELECT id, description, amount, type, transaction_date, created_at
+            FROM transactions"
+        );
+
+        $stmt->execute();
+
+        $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        http_response_code(200);
+
+        echo json_encode($transactions, JSON_PRETTY_PRINT);
+
+        exit;
+
+    } else {
+        $id = $_GET['id'];
+
+        $stmt = $pdo->prepare(
+            "SELECT id, description, amount, type, transaction_date, created_at
+            FROM transactions
+            WHERE id = :id"
+        );
+
+        $stmt->execute([
+            'id' => $id
+        ]);
+
+        $transactions = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    if (!$transactions) {
+        http_response_code(404); // Não encontrado
+
+        echo json_encode([
+            'message' => 'Registro nao encontrado.'
+        ]);
+
+        exit;
+    }
+
+    http_response_code(200);
+
+    echo json_encode($transactions, JSON_PRETTY_PRINT);
+
+    exit;
 
 } else if($method == 'PUT'){
+    if (!isset($_GET['id'])) {
+        http_response_code(400);
 
+        echo json_encode([
+            'message' => 'ID do usuario e obrigatorio.'
+        ]);
+
+        exit;
+    }
+
+    $input = json_decode(file_get_contents("php://input"), true);
+
+    if (
+        !isset($input['description']) ||
+        !isset($input['amount']) ||
+        !isset($input['type']) ||
+        !isset($input['transaction_date']) 
+    ) {
+    
+        http_response_code(400);
+
+        echo json_encode([
+            'message' => 'Nome e e-mail sao obrigatorios.'
+        ]);
+
+        exit;
+    }
+
+    $name = $input['name'];
+    $email = $input['email'];
 } else if($method == 'DELETE'){
 
 }
