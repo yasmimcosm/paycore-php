@@ -99,6 +99,10 @@ if($method == 'POST'){
 
     exit;
 
+
+
+
+
     //e se tiver 1 milhão de registros
 } else if($method == 'GET'){
     if (!isset($_GET['id'])) {
@@ -149,12 +153,17 @@ if($method == 'POST'){
 
     exit;
 
+
+
+
+
+
 } else if($method == 'PUT'){
     if (!isset($_GET['id'])) {
         http_response_code(400);
 
         echo json_encode([
-            'message' => 'ID do usuario e obrigatorio.'
+            'message' => 'ID do registro e obrigatorio.'
         ]);
 
         exit;
@@ -172,14 +181,167 @@ if($method == 'POST'){
         http_response_code(400);
 
         echo json_encode([
-            'message' => 'Nome e e-mail sao obrigatorios.'
+            'message' => 'Todas as informacoes sao obrigatorias.'
         ]);
 
         exit;
     }
 
-    $name = $input['name'];
-    $email = $input['email'];
+    $description = $input['description'];
+    $amount = $input['amount'];
+    $type = $input['type'];
+    $transaction_date = $input['transaction_date'];
+
+    if (trim($description) === '') { //remove espaços em branco do começo e do final
+        http_response_code(400);
+
+        echo json_encode([
+            'message' => 'Digite uma descricao válida.'
+        ]);
+
+        exit;
+    }
+    
+    if(strlen($description) < 4){
+        http_response_code(400);
+
+        echo json_encode([
+            'message' => 'Digite uma descricao mais que 4 caracteres.'
+        ]);
+
+        exit;
+    }
+
+    if($amount <= 0){
+        http_response_code(400);
+
+        echo json_encode([
+            'message' => 'Digite um valor valido'
+        ]);
+
+        exit;
+    }
+
+    if($type != "entrada" && $type != "saida"){
+        http_response_code(400);
+
+        echo json_encode([
+            'message' => 'Digite um tipo valido (entrada/saida)'
+        ]);
+
+        exit;
+    }
+
+    $date = DateTime::createFromFormat('Y-m-d', $transaction_date);
+
+    if (!$date || $date->format('Y-m-d') !== $transaction_date) {
+        http_response_code(400);
+
+        echo json_encode([
+            'message' => 'Digite uma data valida no formato Ano-Mes-Dia.'
+        ]);
+
+        exit;
+    }
+
+    $id = $_GET['id'];
+
+    $stmt = $pdo->prepare(
+        "SELECT id
+        FROM transactions
+        WHERE id = :id"
+    );
+
+    $stmt->execute([
+        'id' => $id
+    ]);
+
+    $transactions = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+    if (!$transactions) {
+        http_response_code(404); // Não encontrado
+
+        echo json_encode([
+            'message' => 'Registro nao encontrado.'
+        ]);
+
+        exit;
+    }
+
+    $stmt = $pdo->prepare(
+        "UPDATE transactions
+        SET description = :description,
+            amount = :amount,
+            type = :type,
+            transaction_date = :transaction_date
+        WHERE id = :id"
+    );
+
+    $stmt->execute([
+        'description' => $description,
+        'amount' => $amount,
+        'type' => $type,
+        'transaction_date' => $transaction_date,
+        'id' => $id
+    ]);
+
+
+    http_response_code(200);
+
+    echo json_encode([
+        'message' => 'Transacao atualizada com sucesso.'
+    ]);
+
 } else if($method == 'DELETE'){
 
+    if (!isset($_GET['id'])) {
+        http_response_code(400);
+
+        echo json_encode([
+            'message' => 'ID da transacao e obrigatorio.'
+        ]);
+
+        exit;
+    }
+
+
+    $id = $_GET['id'];
+
+    $stmt = $pdo->prepare(
+        "SELECT id
+        FROM transactions
+        WHERE id = :id"
+    );
+
+    $stmt->execute([
+        'id' => $id
+    ]);
+
+    $transactions = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$transactions) {
+        http_response_code(404);
+
+        echo json_encode([
+            'message' => 'Transacao nao encontrada.'
+        ]);
+
+        exit;
+    }
+
+    $stmt = $pdo->prepare(
+        "DELETE FROM transactions
+        WHERE id = :id"
+    );
+
+    $stmt->execute([
+        'id' => $id
+    ]);
+
+    http_response_code(200);
+
+    echo json_encode([
+        'message' => 'Transacao excluida com sucesso.'
+    ]);
 }
