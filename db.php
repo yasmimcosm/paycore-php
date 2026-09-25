@@ -1,5 +1,6 @@
 <?php
 
+
 //__DIR__ : constante especial do PHP que representa o diretório onde está o arquivo atual.
 require __DIR__ . '/vendor/autoload.php';
 

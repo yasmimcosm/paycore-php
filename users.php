@@ -1,5 +1,6 @@
 <?php
 
+
 require 'db.php';
 
 $stmt = $pdo->prepare(

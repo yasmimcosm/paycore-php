@@ -215,4 +215,6 @@ if($method == 'GET'){
     echo json_encode([
         'message' => 'Usuário excluído com sucesso.'
     ]);
+
+    exit;
 }
