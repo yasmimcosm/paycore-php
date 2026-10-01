@@ -1,5 +1,6 @@
 <?php
-//Usar UUID || enumeração || cast: string para data || Soft delete || PATCH || no put, nn trabalhar na url, no body msm || UPDATE_AT
+//Usar UUID || enumeração || cast: string para data || Soft delete || 
+// PATCH || no put, nn trabalhar na url, no body msm || UPDATE_AT
 require 'db.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
