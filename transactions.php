@@ -1,10 +1,11 @@
 <?php
- 
+//Usar UUID || enumeração || cast: string para data || Soft delete || PATCH || no put, nn trabalhar na url, no body msm || UPDATE_AT
 require 'db.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
 switch ($method) {
+    //----------------------- POST -----------------------------------------
     case 'POST':
         $input = json_decode(file_get_contents("php://input"), true);
 
@@ -16,7 +17,7 @@ switch ($method) {
             !isset($input['transaction_date'])
         ) {
             http_response_code(400); // 400 Bad Request - Dados inválidos
-
+            //falta falar o campo que falta.
             echo json_encode([
                 'message' => 'Todos os campos sao obrigatorios.'
             ]);
@@ -50,7 +51,7 @@ switch ($method) {
             exit;
         }
 
-        if($amount <= 0){
+        if($amount < 0){
             http_response_code(400);
 
             echo json_encode([
@@ -121,7 +122,8 @@ switch ($method) {
             'message' => 'Novo registro cadastrado com sucesso.'
         ]);
         break;
-
+    
+    //----------------------- GET -----------------------------------------
     case 'GET':
         $filter = '';
 
@@ -170,6 +172,25 @@ switch ($method) {
             case 'category':
                 $category = $_GET['category'];
 
+                if (trim($category) === '') { //remove espaços em branco do começo e do final
+                    http_response_code(400);
+
+                    echo json_encode([
+                        'message' => 'Digite uma categoria válida.'
+                    ]);
+
+                    exit;
+                }
+                
+                if(strlen($category) < 4){
+                    http_response_code(400);
+
+                    echo json_encode([
+                        'message' => 'Digite uma categoria com pelo menos 4 caracteres.'
+                    ]);
+
+                    exit;
+                }
 
                 $stmt = $pdo->prepare(
                     "SELECT id, description, amount, type, category, transaction_date, created_at
@@ -192,7 +213,7 @@ switch ($method) {
                 break;
 
             default:
-                $stmt = $pdo->prepare(
+                $stmt = $pdo->prepare( //placeholders
                     "SELECT id, description, amount, type, category, transaction_date, created_at
                     FROM transactions
                     ORDER BY created_at DESC
@@ -212,6 +233,7 @@ switch ($method) {
 
         break;
 
+    //----------------------- PUT -----------------------------------------
     case 'PUT':
             if (!isset($_GET['id'])) {
                 http_response_code(400);
@@ -288,91 +310,92 @@ switch ($method) {
                 exit;
             }
 
-        if (trim($category) === '') { //remove espaços em branco do começo e do final
-            http_response_code(400);
+            if (trim($category) === '') { //remove espaços em branco do começo e do final
+                http_response_code(400);
 
-            echo json_encode([
-                'message' => 'Digite uma categoria válida.'
+                echo json_encode([
+                    'message' => 'Digite uma categoria válida.'
+                ]);
+
+                exit;
+            }
+            
+            if(strlen($category) < 4){
+                http_response_code(400);
+
+                echo json_encode([
+                    'message' => 'Digite uma categoria com pelo menos 4 caracteres.'
+                ]);
+
+                exit;
+            }
+
+            $date = DateTime::createFromFormat('Y-m-d', $transaction_date);
+
+            if (!$date || $date->format('Y-m-d') !== $transaction_date) {
+                http_response_code(400);
+
+                echo json_encode([
+                    'message' => 'Digite uma data valida no formato Ano-Mes-Dia.'
+                ]);
+
+                exit;
+            }
+
+            $id = $_GET['id'];
+
+            $stmt = $pdo->prepare(
+                "SELECT id
+                FROM transactions
+                WHERE id = :id"
+            );
+
+            $stmt->execute([
+                'id' => $id
             ]);
 
-            exit;
-        }
-        
-        if(strlen($category) < 4){
-            http_response_code(400);
+            $transactions = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            echo json_encode([
-                'message' => 'Digite uma categoria com pelo menos 4 caracteres.'
+
+            if (!$transactions) {
+                http_response_code(404); // Não encontrado
+
+                echo json_encode([
+                    'message' => 'Registro nao encontrado.'
+                ]);
+
+                exit;
+            }
+
+            $stmt = $pdo->prepare(
+                "UPDATE transactions
+                SET description = :description,
+                    amount = :amount,
+                    type = :type,
+                    category = :category,
+                    transaction_date = :transaction_date
+                WHERE id = :id"
+            );
+
+            $stmt->execute([
+                'description' => $description,
+                'amount' => $amount,
+                'type' => $type,
+                'category' => $category,
+                'transaction_date' => $transaction_date,
+                'id' => $id
             ]);
 
-            exit;
-        }
 
-        $date = DateTime::createFromFormat('Y-m-d', $transaction_date);
-
-        if (!$date || $date->format('Y-m-d') !== $transaction_date) {
-            http_response_code(400);
+            http_response_code(200);
 
             echo json_encode([
-                'message' => 'Digite uma data valida no formato Ano-Mes-Dia.'
+                'message' => 'Transacao atualizada com sucesso.'
             ]);
 
-            exit;
-        }
+            break;
 
-        $id = $_GET['id'];
-
-        $stmt = $pdo->prepare(
-            "SELECT id
-            FROM transactions
-            WHERE id = :id"
-        );
-
-        $stmt->execute([
-            'id' => $id
-        ]);
-
-        $transactions = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-        if (!$transactions) {
-            http_response_code(404); // Não encontrado
-
-            echo json_encode([
-                'message' => 'Registro nao encontrado.'
-            ]);
-
-            exit;
-        }
-
-        $stmt = $pdo->prepare(
-            "UPDATE transactions
-            SET description = :description,
-                amount = :amount,
-                type = :type,
-                category = :category,
-                transaction_date = :transaction_date
-            WHERE id = :id"
-        );
-
-        $stmt->execute([
-            'description' => $description,
-            'amount' => $amount,
-            'type' => $type,
-            'category' => $category,
-            'transaction_date' => $transaction_date,
-            'id' => $id
-        ]);
-
-
-        http_response_code(200);
-
-        echo json_encode([
-            'message' => 'Transacao atualizada com sucesso.'
-        ]);
-
-        break;
-
+    //----------------------- DELETE -----------------------------------------
     case 'DELETE':
         if (!isset($_GET['id'])) {
             http_response_code(400);
