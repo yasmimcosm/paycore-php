@@ -3,6 +3,8 @@
 // PATCH || no put, nn trabalhar na url, no body msm || UPDATE_AT
 require_once __DIR__ . '/../../config/db.php';
 
+use Ramsey\Uuid\Uuid;
+
 $method = $_SERVER['REQUEST_METHOD'];
 
 switch ($method) {
@@ -104,9 +106,13 @@ switch ($method) {
             exit;
         }
 
+
+        $uuid = Uuid::uuid4()->toString();
+
+
         $stmt = $pdo->prepare(
-            "INSERT INTO transactions (description, amount, type, category, transaction_date)
-            VALUES (:description, :amount, :type, :category, :transaction_date)"
+            "INSERT INTO transactions (description, amount, type, category, transaction_date, uuid)
+            VALUES (:description, :amount, :type, :category, :transaction_date, :uuid)"
         );
 
         $stmt->execute([
@@ -114,7 +120,8 @@ switch ($method) {
             'amount' => $amount,
             'type' => $type,
             'category' => $category,
-            'transaction_date' => $transaction_date
+            'transaction_date' => $transaction_date,
+            'uuid' => $uuid
         ]);
 
         http_response_code(201);
@@ -151,7 +158,7 @@ switch ($method) {
                 }
 
                 $stmt = $pdo->prepare(
-                    "SELECT id, description, amount, type, category, transaction_date, created_at
+                    "SELECT id, description, amount, type, category, transaction_date, created_at, uuid
                     FROM transactions
                         WHERE type = :type
                     ORDER BY created_at DESC
@@ -194,7 +201,7 @@ switch ($method) {
                 }
 
                 $stmt = $pdo->prepare(
-                    "SELECT id, description, amount, type, category, transaction_date, created_at
+                    "SELECT id, description, amount, type, category, transaction_date, created_at,uuid
                     FROM transactions
                         WHERE category = :category
                     ORDER BY created_at DESC
@@ -215,7 +222,7 @@ switch ($method) {
 
             default:
                 $stmt = $pdo->prepare( //placeholders
-                    "SELECT id, description, amount, type, category, transaction_date, created_at
+                    "SELECT id, description, amount, type, category, transaction_date, created_at, uuid
                     FROM transactions
                     ORDER BY created_at DESC
                     LIMIT 5"
