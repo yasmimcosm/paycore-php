@@ -2,10 +2,10 @@
 
 
 //__DIR__ : constante especial do PHP que representa o diretório onde está o arquivo atual.
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 //criando um objeto do phpdotenv. "Crie um carregador de variáveis de ambiente e procure o .env neste diretório."
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
 
 //Agora ele carrega as informações do .env
 $dotenv->load();

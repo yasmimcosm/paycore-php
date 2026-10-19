@@ -1,7 +1,6 @@
 <?php
 
-
-require 'db.php';
+require_once __DIR__ . '/../../config/db.php';
 
 $stmt = $pdo->prepare(
     "SELECT id, name, email, created_at

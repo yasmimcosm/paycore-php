@@ -1,7 +1,7 @@
 <?php
 //Usar UUID || enumeração || cast: string para data || Soft delete || 
 // PATCH || no put, nn trabalhar na url, no body msm || UPDATE_AT
-require 'db.php';
+require_once __DIR__ . '/../../config/db.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -450,9 +450,13 @@ switch ($method) {
 
         break;
 
+    case 'PATH':
+        
     default:
         http_response_code(405);
         echo json_encode([
             'message' => 'Método não permitido.'
         ]);
+
+
 }
